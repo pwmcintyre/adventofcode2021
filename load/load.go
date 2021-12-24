@@ -26,6 +26,40 @@ func FromURL(url string) (io.ReadCloser, error) {
 	return resp.Body, err
 }
 
+const filename = "./input.txt"
+
+func Input() (io.ReadCloser, error) {
+
+	// attempt to load local file
+	lines, err := FromFile(filename)
+	if err != nil && !os.IsNotExist(err) {
+		return nil, fmt.Errorf("failed to load input: %w", err)
+	}
+	if err == nil {
+		return lines, nil
+	}
+
+	// attempt to load from internet
+	lines, err = FromAdventOfCode("1", DefaultAuthChain)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get input from internet: %w", err)
+	}
+
+	// cache local
+	outFile, err := os.Create(filename)
+	if err != nil {
+		return nil, fmt.Errorf("failed to save input from internet: %w", err)
+	}
+
+	// readCloser helps us bind the Reader interface of tee, and the Closer interface of File
+	type readCloser struct {
+		io.Reader
+		io.Closer
+	}
+	tee := io.TeeReader(lines, outFile)
+	return readCloser{tee, outFile}, nil
+}
+
 func FromAdventOfCode(day string, fn SessionCodeGetter) (io.ReadCloser, error) {
 
 	// get auth

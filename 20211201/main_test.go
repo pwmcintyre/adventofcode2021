@@ -30,7 +30,7 @@ func Test_Sample(t *testing.T) {
 
 func Test_part1(t *testing.T) {
 
-	lines, err := load.AsInts(load.FromAdventOfCode("1", load.DefaultAuthChain))
+	lines, err := load.AsInts(load.Input())
 	if err != nil {
 		t.Fatalf("failed to read input: %v", err)
 	}
