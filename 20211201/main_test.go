@@ -70,7 +70,7 @@ func Test_part2(t *testing.T) {
 		t.Fatalf("failed to read input: %v", err)
 	}
 
-	want := 0
+	want := 1359
 	if answer := part2(lines); answer != want {
 		t.Errorf("wrong; got %d want %d", answer, want)
 	}
