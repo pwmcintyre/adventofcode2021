@@ -28,7 +28,7 @@ func FromURL(url string) (io.ReadCloser, error) {
 
 const filename = "./input.txt"
 
-func Input() (io.ReadCloser, error) {
+func Input(day string) (io.ReadCloser, error) {
 
 	// attempt to load local file
 	lines, err := FromFile(filename)
@@ -40,7 +40,7 @@ func Input() (io.ReadCloser, error) {
 	}
 
 	// attempt to load from internet
-	lines, err = FromAdventOfCode("1", DefaultAuthChain)
+	lines, err = FromAdventOfCode(day, DefaultAuthChain)
 	if err != nil {
 		return nil, fmt.Errorf("failed to get input from internet: %w", err)
 	}

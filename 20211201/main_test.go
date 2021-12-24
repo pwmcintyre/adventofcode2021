@@ -30,7 +30,7 @@ func Test_Sample(t *testing.T) {
 
 func Test_part1(t *testing.T) {
 
-	lines, err := load.AsInts(load.Input())
+	lines, err := load.AsInts(load.Input("1"))
 	if err != nil {
 		t.Fatalf("failed to read input: %v", err)
 	}
