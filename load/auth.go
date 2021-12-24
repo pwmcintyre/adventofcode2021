@@ -23,7 +23,10 @@ func DefaultAuthChain() (string, error) {
 		// get key
 		key, err := fn()
 		if err != nil {
-			continue
+			if errors.Is(err, ErrNotFound) {
+				continue
+			}
+			return "", err
 		}
 
 		return key, err
