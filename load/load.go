@@ -154,3 +154,54 @@ func AsInts(r io.ReadCloser, err error) ([]int, error) {
 	}
 	return lines, nil
 }
+
+func AsIntsFromBinary(r io.ReadCloser, err error) ([]int, error) {
+
+	if r != nil {
+		defer r.Close()
+	}
+
+	var lines []int
+	if err != nil {
+		return lines, err
+	}
+
+	// scan
+	scanner := bufio.NewScanner(r)
+	for scanner.Scan() {
+		n, err := strconv.ParseInt(scanner.Text(), 2, 64)
+		if err != nil {
+			return lines, err
+		}
+		lines = append(lines, int(n))
+	}
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+	return lines, nil
+}
+
+// FromStrings is a utility to aid testsing, allows you to convert []string into io.ReadCloser
+// to mimic data streaming from a file or URL
+func FromStrings(data ...string) (*stringReadCloser, error) {
+	return &stringReadCloser{data, 0}, nil
+}
+
+type stringReadCloser struct {
+	data      []string
+	readIndex int
+}
+
+func (r *stringReadCloser) Read(p []byte) (n int, err error) {
+	if r.readIndex >= len(r.data) {
+		err = io.EOF
+		return
+	}
+
+	n = copy(p, r.data[r.readIndex]+"\n")
+	r.readIndex += 1
+	return
+}
+func (r *stringReadCloser) Close() error {
+	return nil
+}

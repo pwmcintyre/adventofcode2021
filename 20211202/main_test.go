@@ -8,13 +8,16 @@ import (
 
 func Test_Sample1(t *testing.T) {
 
-	lines := []string{
+	lines, err := load.AsStrings(load.FromStrings(
 		"forward 5",
 		"down 5",
 		"forward 8",
 		"up 3",
 		"down 8",
 		"forward 2",
+	))
+	if err != nil {
+		t.Fatalf("failed to read input: %v", err)
 	}
 
 	want := 150
@@ -40,13 +43,16 @@ func Test_part1(t *testing.T) {
 
 func Test_Sample2(t *testing.T) {
 
-	lines := []string{
+	lines, err := load.AsStrings(load.FromStrings(
 		"forward 5",
 		"down 5",
 		"forward 8",
 		"up 3",
 		"down 8",
 		"forward 2",
+	))
+	if err != nil {
+		t.Fatalf("failed to read input: %v", err)
 	}
 
 	want := 900
