@@ -74,6 +74,9 @@ func FromAdventOfCode(day string, fn SessionCodeGetter) (io.ReadCloser, error) {
 	// make request
 	url := fmt.Sprintf("https://adventofcode.com/2021/day/%s/input", day)
 	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get input: %w", err)
+	}
 	req.AddCookie(authCookie)
 
 	// do request

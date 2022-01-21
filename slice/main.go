@@ -1,13 +1,13 @@
 package slice
 
-func sliceSum(numbers []int) (sum int) {
+func SliceSum(numbers []int) (sum int) {
 	for i := 0; i < len(numbers); i++ {
 		sum += numbers[i]
 	}
 	return
 }
 
-func sliceMinMax(numbers []int) (min, max int) {
+func SliceMinMax(numbers []int) (min, max int) {
 	if len(numbers) == 0 {
 		return 0, 0
 	}
